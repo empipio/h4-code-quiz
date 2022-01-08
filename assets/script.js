@@ -27,3 +27,27 @@
 //all qs answered/out of time = end of game
 //save initials and score to local storage (input field for name, transfer score)
 
+var timerEl = document.getElementById('countdown');
+var button = document.getElementById("button")
+
+function countdown() {
+    var timeLeft = 60;
+
+    var timeInterval = setInterval(function() {
+        if (timeLeft > 1) {
+            timerEl.textContent = timeLeft + ' seconds remaining';
+            timeLeft--;
+        }
+       else if (timeLeft === 1) {
+            timerEl.textContent = timeLeft + ' second remaining';
+            timeLeft--;
+        } else {
+            timerEl.textContent="Time's up!";
+            clearInterval(timeInterval);
+        }
+    }, 1000)
+
+}
+
+
+button.addEventListener("click", countdown())
