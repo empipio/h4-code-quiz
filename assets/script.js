@@ -29,31 +29,31 @@
 
 var questions = [
     {
-        id: 1,
+        id: 0,
         category: "How is Javascript linked to an HTML file?",
         answers: ["<script>","<insert>","<add-java>","none of these"],
         correctAnswerIndex: 0
     },
     {
-        id: 2,
+        id: 1,
         category: "How would we print 'Hello World' to the console?",
         answers: ["add.text('Hello World')","console.log('Hello World')","cons.print('Hello World')","print.text('Hello World')"],
         correctAnswerIndex: 1
     },
     {
-        id: 3,
+        id: 2,
         category: "To store multiple values in a single variable we would use...",
         answers: ["a string","a list","a variable folder","an array"],
         correctAnswerIndex: 3
     },
     {
-        id: 4,
+        id: 3,
         category: "Which of the following could be used to remove the last item from an array?",
         answers: ["remove.last()","pop()","remove.end()","push()"],
         correctAnswerIndex: 1
     },
     {
-        id: 5,
+        id: 4,
         category: "How can we create an HTML element using Javascript?",
         answers: ["createElement.html()","html.add()","document.createElement()","document.addElement()"],
         correctAnswerIndex: 2
@@ -64,16 +64,21 @@ var timeEl = document.getElementById("timer-container");
 
 var timer = 60;
 
-var currentQuestion = 0;
+var currentQuestionIndex = 0;
 
 var score = 0;
+
+// var i = 0;
+// var j = 0;
 
 //empty sections created and appended for each part of the quiz
 var startContainerEl = document.createElement("section");
 document.body.appendChild(startContainerEl);
 
-var questionContainerEl = document.createElement("section");
-document.body.appendChild(questionContainerEl);
+var questionContainerEl = document.getElementById("question-container");
+
+// var questionContainerEl = document.createElement("section");
+// document.body.appendChild(questionContainerEl);
 
 var resultsContainerEL = document.createElement("section");
 document.body.appendChild(resultsContainerEL);
@@ -94,6 +99,9 @@ var GameStartButtonEl = document.createElement("button");
 GameStartButtonEl.textContent = "Take the Quiz";
 startContainerEl.appendChild(GameStartButtonEl);
 
+function removeQuestion() {
+    document.body.removeChild(questionContainerEl);
+}
 
 function startTimer() {
 
@@ -101,7 +109,7 @@ function startTimer() {
         timer--;
         timeEl.textContent = timer + " seconds remaining";
     
-    if (timer === 0) {
+    if (timer <= 0) {
       clearInterval(timeInterval);
       gameOver();
     }
@@ -110,41 +118,59 @@ function startTimer() {
   
   }
 
-  function produceQuestion() {
-    
-    // var questionContainerEl = document.createElement("section");
-    // document.body.appendChild(questionContainerEl);
-    
-    var questionHeader = document.createElement("header");
-    questionHeader.textContent = "Question " + questions[currentQuestion].id;
-    questionContainerEl.appendChild(questionHeader);
-    
-    var categoryEl = document.createElement("p");
-    categoryEl.textContent = questions[currentQuestion].category;
-    questionHeader.appendChild(categoryEl);
-    
-    var divEl = document.createElement("div");
-    categoryEl.appendChild(divEl);
-    
-    var answerButton1 = document.createElement("button");
-    answerButton1.textContent = questions[currentQuestion].answers[0];
-    answerButton1.setAttribute("data-index", 0);
-    categoryEl.appendChild(answerButton1);
-    
-    var answerButton2 = document.createElement("button");
-    answerButton2.textContent = questions[currentQuestion].answers[1];
-    answerButton2.setAttribute("data-index", 1);
-    categoryEl.appendChild(answerButton2);
-    
-    var answerButton3 = document.createElement("button");
-    answerButton3.textContent = questions[currentQuestion].answers[2];
-    answerButton3.setAttribute("data-index", 2);
-    categoryEl.appendChild(answerButton3);
+  var questionHeader = document.createElement("header");
+  var currentQuestion = questions[currentQuestionIndex];
 
-    var answerButton4 = document.createElement("button");
-    answerButton4.textContent = questions[currentQuestion].answers[3];
-    answerButton4.setAttribute("data-index", 3);
-    categoryEl.appendChild(answerButton4);
+function produceQuestion() {
+      
+    
+for (var i = 0; i < questions.length; i--){
+    console.log(questions[i].id)
+    questionHeader.textContent = "Question " + questions[i].id;
+    questionContainerEl.appendChild(questionHeader);
+    var categoryEl = document.createElement("p");
+     categoryEl.textContent = questions[i].category;
+     categoryEl.setAttribute("value",questions[i].correctAnswerIndex);
+     questionHeader.appendChild(categoryEl);
+
+     console.log(questions[i]);
+
+     for (var j = 0; j <questions.length; j++) {
+        var answerButton = document.createElement("button");
+        answerButton.textContent = questions[i].answers[j];
+        answerButton.setAttribute("value", questions[i].id);
+        answerButton.setAttribute("class", "answers");
+        categoryEl.appendChild(answerButton);
+     }
+}
+
+    // var categoryEl = document.createElement("p");
+    // categoryEl.textContent = questions[i].category;
+    // categoryEl.setAttribute("data-index",questions[i].correctAnswerIndex);
+    // questionHeader.appendChild(categoryEl);
+    
+    // var divEl = document.createElement("div");
+    // categoryEl.appendChild(divEl);
+    
+    // var answerButton = document.createElement("button");
+    // answerButton.textContent = questions[i].answers[j];
+    // answerButton.setAttribute("data-index", j);
+    // categoryEl.appendChild(answerButton);
+    
+    // var answerButton2 = document.createElement("button");
+    // answerButton2.textContent = questions[currentQuestion].answers[j];
+    // answerButton2.setAttribute("data-index", 1);
+    // categoryEl.appendChild(answerButton2);
+    
+    // var answerButton3 = document.createElement("button");
+    // answerButton3.textContent = questions[currentQuestion].answers[j];
+    // answerButton3.setAttribute("data-index", 2);
+    // categoryEl.appendChild(answerButton3);
+
+    // var answerButton4 = document.createElement("button");
+    // answerButton4.textContent = questions[currentQuestion].answers[3];
+    // answerButton4.setAttribute("data-index", 3);
+    // categoryEl.appendChild(answerButton4);
     
     var divTwoEL = document.createElement("div");
     categoryEl.appendChild(divTwoEL);
@@ -153,16 +179,122 @@ function startTimer() {
     rightOrWrongEl.textContent = "";
     categoryEl.appendChild(rightOrWrongEl);
     
-    //checkAnswer();
-    }
-    
+    questionHeader.addEventListener("click", function(event) {
+        var elementClicked = event.target.value;
+        console.log(elementClicked)
+        if (elementClicked.matches("button")) {
+           
+            var rightAnswerIndex = categoryEl.getAttribute("value");
+            var selectedAnswerIndex = elementClicked.getAttribute("value");
+
+            if (rightAnswerIndex === selectedAnswerIndex) {
+                rightOrWrongEl.textContent = "correct!";
+                score = score + 1;
+                currentQuestion++;
+            } else {
+                rightOrWrongEl.textContent = "incorrect! Lose 10 seconds"
+                timer = timer - 10;
+                currentQuestion++;
+            }
+        }
+    });
+}
 
 function startGame(event) {
     event.preventDefault();
     document.body.removeChild(startContainerEl);
     startTimer();
     produceQuestion();
-    // nextQuestion(); 
-  }
+    //document.body.removeChild(questionContainerEl);
+    //nextQuestion(); 
+}
   
   GameStartButtonEl.addEventListener("click", startGame);
+
+// function nextQuestion () {
+//     for (var i = 0; i < questions.length; i++) {
+//       document.body.removeChild(questionContainerEl);
+//       currentQuestion = currentQuestion + 1;
+//       produceQuestion();
+//     }
+// //       //gameOver();
+// }
+
+// function gameOver() {
+//     document.body.removeChild(timeEl);
+//     document.body.removeChild(questionContainerEl);
+
+//     var resultsContainerEL = document.createElement("section");
+//     document.body.appendChild(resultsContainerEL);
+
+//     var resultsHeaderEl = document.createElement("h1");
+//     resultsHeaderEl.textContent = "Game Over!"
+//     resultsContainerEL.appendChild(resultsHeaderEl);
+
+//     var UserScoreEl = document.createElement("p");
+//     UserScoreEl.textContent = "Your Score is " + score;
+//     resultsContainerEL.appendChild(UserScoreEl);
+
+//     var userInputEl = document.createElement("input");
+//     userInputEl.textContent = "Type your initials here";
+//     resultsContainerEL.appendChild(userInputEl);
+
+//     var submitEl = document.createElement("button");
+//     submitEl.textContent = "Save score";
+//     resultsContainerEL.appendChild(submitEl);
+
+//     submitEl.addEventListener("click", saveHighScore)
+       
+// }    
+
+// function showHighScores() {
+//     document.body.removeChild(resultsContainerEL);
+//     document.body.removeChild(questionContainerEl);
+    
+  
+//     var hSCcontainerEl = document.createElement("section");
+//     document.body.appendChild(hSCcontainerEl);
+  
+//     var hSHeaderEl = document.createElement("h1");
+//     hSHeaderEl.textContent = "High Scores";
+//     hSCcontainerEl.appendChild(hSHeaderEl);
+  
+//     var scoreListEl = document.createElement("ul")
+//     scoreListEl.textContent = "Scores";
+//     hSCcontainerEl.appendChild(scoreListEl);
+  
+//     var clearHSButtonEl = document.createElement("button");
+//     clearHSButtonEl.textContent = "Clear Highscores";
+//     hSCcontainerEl.appendChild(clearHSButtonEl);
+  
+//     var restartButtonEl = document.createElement("button");
+//     restartButtonEl.textContent = "Play again";
+  
+//     clearHSButtonEl.addEventListener("click", localStorage.clear);
+//     restartButtonEl.addEventListener("click", location.reload);
+  
+//     getHighScores()
+//   }
+
+// function getHighScores() {
+//     var retrieveScore = localStorage.JSON.parse(getItem("highscore", highScore));
+//     for (var i = 0; i < retrieveScore.length; i++) {
+//       var scoreListItem = document.createElement("li");
+//     scoreListItem.textContent = retrieveScore.name + retrieveScore.score;
+//     scoreListEl.appendChild(scoreListItem);
+//     }
+    
+//     //add to table?
+// //   // Get the values in local storage
+// //   // Return to the function needing it
+// }
+
+// function saveHighScore() {
+//   var highScore = {
+//     name: userInputEl.value,
+//     score: score.value
+//   }
+//   localStorage.setItem("highscore", JSON.stringify(highScore));
+//   showHighScores();
+// //   // Save the values in local storage.
+// }
