@@ -195,10 +195,8 @@ function produceQuestion() {
   });
 }
 
-// this will add next question on but won't remove previous
 function nextQuestion() {
   if (currentQuestion < questions.length) {
-    //document.body.removeChild(questionContainerEl);  //this works but can't get next question up!
     var questionContainerEl = document.getElementById("questionContainer");
     console.log(questionContainerEl);
     questionContainerEl.remove();
@@ -209,7 +207,7 @@ function nextQuestion() {
 }
 
 function getHighScores() {
-  var highScoresString = localStorage.getItem("highscores"); //doesn't like this
+  var highScoresString = localStorage.getItem("highscores");
 
   if (highScoresString === null) {
     return [];
@@ -230,6 +228,7 @@ function showHighScores() {
 
   var scoreListEl = document.createElement("ul");
   scoreListEl.textContent = "Scores";
+  scoreListEl.style.fontWeight = "bold";
   hSCcontainerEl.appendChild(scoreListEl);
 
   var clearHSButtonEl = document.createElement("button");
@@ -240,16 +239,28 @@ function showHighScores() {
   restartButtonEl.textContent = "Play again";
   hSCcontainerEl.appendChild(restartButtonEl);
 
-  clearHSButtonEl.addEventListener("click", localStorage.clear);
-  //restartButtonEl.addEventListener("click", location.reload()); //reloads immediately without clicking
+  function clearHighScore(event) {
+    event.preventDefault();
+    localStorage.clear();
+  }
+
+  clearHSButtonEl.addEventListener("click", clearHighScore); //clears immediately without clicking
+
+  function restartGame(event) {
+    event.preventDefault();
+    location.reload();
+  }
+
+  restartButtonEl.addEventListener("click", restartGame);
 
   var highScores = getHighScores();
 
   for (var i = 0; i < highScores.length; i++) {
     var scoreListItem = document.createElement("li");
+    scoreListItem.style.fontWeight = "normal";
 
     scoreListItem.textContent =
-      "Name: " + highScores[i].name + "Score: " + highScores[i].score;
+      "Name: " + highScores[i].name + ", Score: " + highScores[i].score;
 
     scoreListEl.appendChild(scoreListItem);
   }
