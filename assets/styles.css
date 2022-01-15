@@ -1,11 +1,11 @@
 #timer-container {
-    position: absolute;
-    top: 0;
-    right: 0;
-    padding: 10px;
-    text-align: center;
-    margin: 20px;
-  }
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 10px;
+  text-align: center;
+  margin: 20px;
+}
 
 #score-container {
   position: absolute;
@@ -18,13 +18,15 @@
 
 body {
   font-size: large;
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
 
 button {
   background-color: blueviolet;
   color: white;
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
   font-size: medium;
   padding: 2px;
   margin: 3px;
@@ -36,4 +38,8 @@ header {
 
 p {
   font-weight: normal;
+}
+
+section {
+  margin-top: 50px;
 }

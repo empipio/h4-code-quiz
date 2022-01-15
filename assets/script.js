@@ -133,14 +133,6 @@ function produceQuestion() {
   var divEl = document.createElement("div");
   categoryEl.appendChild(divEl);
 
-  //   for (var j = 0; j < questions.length; j++) {
-  //     var answerButton = document.createElement("button");
-  //     answerButton.textContent = questions[i].answers[j];
-  //     answerButton.setAttribute("value", questions[i].id);
-  //     answerButton.setAttribute("class", "answers");
-  //     categoryEl.appendChild(answerButton);
-  //   }
-
   var answerButton1 = document.createElement("button");
   answerButton1.textContent = questions[currentQuestion].answers[0];
   answerButton1.setAttribute("data-index", 0);
@@ -161,14 +153,6 @@ function produceQuestion() {
   answerButton4.setAttribute("data-index", 3);
   categoryEl.appendChild(answerButton4);
 
-  var divTwoEL = document.createElement("div");
-  categoryEl.appendChild(divTwoEL);
-
-  var rightOrWrongEl = document.createElement("p");
-  rightOrWrongEl.textContent = "";
-  rightOrWrongEl.style.color = "red";
-  categoryEl.appendChild(rightOrWrongEl);
-
   categoryEl.addEventListener("click", function (event) {
     var elementClicked = event.target;
 
@@ -179,15 +163,14 @@ function produceQuestion() {
       var selectedAnswerIndex = elementClicked.getAttribute("data-index");
 
       if (rightAnswerIndex === selectedAnswerIndex) {
-        rightOrWrongEl.textContent = "correct!";
         score = score + 1;
-        scoreEl.textContent = "Score: " + score;
+        scoreEl.textContent = "Score: " + score + ", correct!";
         currentQuestion = currentQuestion + 1;
         nextQuestion();
       } else {
-        rightOrWrongEl.textContent = "incorrect! Lose 10 seconds";
         timer = timer - 10;
-        scoreEl.textContent = "Score: " + score;
+        scoreEl.textContent =
+          "Score: " + score + ", incorrect, lose 10 seconds!";
         currentQuestion = currentQuestion + 1;
         nextQuestion();
       }
@@ -229,6 +212,7 @@ function showHighScores() {
   var scoreListEl = document.createElement("ul");
   scoreListEl.textContent = "Scores";
   scoreListEl.style.fontWeight = "bold";
+  scoreListEl.style.listStyleType = "none";
   hSCcontainerEl.appendChild(scoreListEl);
 
   var clearHSButtonEl = document.createElement("button");
@@ -244,7 +228,7 @@ function showHighScores() {
     localStorage.clear();
   }
 
-  clearHSButtonEl.addEventListener("click", clearHighScore); //clears immediately without clicking
+  clearHSButtonEl.addEventListener("click", clearHighScore);
 
   function restartGame(event) {
     event.preventDefault();
@@ -260,7 +244,7 @@ function showHighScores() {
     scoreListItem.style.fontWeight = "normal";
 
     scoreListItem.textContent =
-      "Name: " + highScores[i].name + ", Score: " + highScores[i].score;
+      "Name: " + highScores[i].name + " // Score: " + highScores[i].score;
 
     scoreListEl.appendChild(scoreListItem);
   }
