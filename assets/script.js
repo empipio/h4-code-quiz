@@ -1,29 +1,4 @@
-// WHEN I click the start button
-// THEN a timer starts and I am presented with a question
-
-// WHEN I answer a question
-// THEN I am presented with another question
-
-// WHEN I answer a question incorrectly
-// THEN time is subtracted from the clock
-
-// WHEN all questions are answered or the timer reaches 0
-// THEN the game is over
-
-// WHEN the game is over
-// THEN I can save my initials and my score
-
-//button to click
-//event listener to trigger game once clicked
-//timer starts (set time interval)
-//question pops up (ordered list, boxes to click)
-//user answers question (event listener on parent and if/else to determine behaviour according to whether right or wrong)
-//if right, user told and points added to score
-//if wrong, user told and time subtracted from clock
-//answering of question triggers presentation of another question
-//all qs answered/out of time = end of game
-//save initials and score to local storage (input field for name, transfer score)
-
+//questions for the quiz stored in an array
 var questions = [
   {
     id: 1,
@@ -101,6 +76,7 @@ var GameStartButtonEl = document.createElement("button");
 GameStartButtonEl.textContent = "Take the Quiz";
 startContainerEl.appendChild(GameStartButtonEl);
 
+//function to control timer, cleared once 0 reached and gameOver() function then called. If incorrect answer when less than 10s remaining gameOver() will be called.
 function startTimer() {
   var timeInterval = setInterval(function () {
     timer--;
@@ -113,7 +89,9 @@ function startTimer() {
   }, 1000);
 }
 
+//question produced, answer checked, nextQuestion() then called
 function produceQuestion() {
+  //elements created for questions to be displayed
   var questionContainerEl = document.createElement("section");
   questionContainerEl.setAttribute("id", "questionContainer");
   document.body.appendChild(questionContainerEl);
@@ -133,6 +111,8 @@ function produceQuestion() {
   var divEl = document.createElement("div");
   categoryEl.appendChild(divEl);
 
+  //wanted to put answer buttons in a for loop but couldn't get it to work and ran out of time
+  //data index added in order to be able to check whether user has selected correct answer
   var answerButton1 = document.createElement("button");
   answerButton1.textContent = questions[currentQuestion].answers[0];
   answerButton1.setAttribute("data-index", 0);
@@ -153,10 +133,9 @@ function produceQuestion() {
   answerButton4.setAttribute("data-index", 3);
   categoryEl.appendChild(answerButton4);
 
+  //event listener to check whether answer correct once button clicked
   categoryEl.addEventListener("click", function (event) {
     var elementClicked = event.target;
-
-    console.log(elementClicked);
 
     if (elementClicked.matches("button")) {
       var rightAnswerIndex = categoryEl.getAttribute("data-index");
@@ -178,10 +157,10 @@ function produceQuestion() {
   });
 }
 
+//once question answered, questionContainerEl is removed. It can then be added back on and repopulated with next question when produceQuestion() called again
 function nextQuestion() {
   if (currentQuestion < questions.length) {
     var questionContainerEl = document.getElementById("questionContainer");
-    console.log(questionContainerEl);
     questionContainerEl.remove();
     produceQuestion();
   } else {
@@ -189,6 +168,7 @@ function nextQuestion() {
   }
 }
 
+//high scores stored as an array in local storage. Function here declared to retrieve them
 function getHighScores() {
   var highScoresString = localStorage.getItem("highscores");
 
@@ -202,6 +182,7 @@ function getHighScores() {
 }
 
 function showHighScores() {
+  //elements created/amended/appended for the high score page
   var hSCcontainerEl = document.createElement("section");
   document.body.appendChild(hSCcontainerEl);
 
@@ -223,6 +204,8 @@ function showHighScores() {
   restartButtonEl.textContent = "Play again";
   hSCcontainerEl.appendChild(restartButtonEl);
 
+  //function declared and event listener added to button in order to clear high scores
+  //wanted to remove high scores from page at time of clicking button but struggled and ran out of time!
   function clearHighScore(event) {
     event.preventDefault();
     localStorage.clear();
@@ -230,6 +213,7 @@ function showHighScores() {
 
   clearHSButtonEl.addEventListener("click", clearHighScore);
 
+  //function declared and event listener added to button to refresh page in order to start game again
   function restartGame(event) {
     event.preventDefault();
     location.reload();
@@ -239,6 +223,7 @@ function showHighScores() {
 
   var highScores = getHighScores();
 
+  //high scores retrieved from local storage and displayed in a list item
   for (var i = 0; i < highScores.length; i++) {
     var scoreListItem = document.createElement("li");
     scoreListItem.style.fontWeight = "normal";
@@ -251,6 +236,7 @@ function showHighScores() {
 }
 
 function gameOver() {
+  //elements removed in order to make way for score screen
   document.body.removeChild(timeEl);
   var questionContainerEl = document.getElementById("questionContainer");
   document.body.removeChild(questionContainerEl);
@@ -267,6 +253,7 @@ function gameOver() {
   UserScoreEl.textContent = "Your Score is " + score;
   resultsContainerEL.appendChild(UserScoreEl);
 
+  //user adds initials here in order to save score
   var userInputEl = document.createElement("input");
   userInputEl.placeholder = "Type your initials here";
   resultsContainerEL.appendChild(userInputEl);
@@ -275,6 +262,7 @@ function gameOver() {
   submitEl.textContent = "Save score";
   resultsContainerEL.appendChild(submitEl);
 
+  //when clicked, the user's initials and score are pushed to the high score array and stored in local storage
   submitEl.addEventListener("click", function (event) {
     var newHighScore = {
       name: userInputEl.value,
@@ -299,4 +287,5 @@ function startGame(event) {
   produceQuestion();
 }
 
+//event listener in order to start game
 GameStartButtonEl.addEventListener("click", startGame);

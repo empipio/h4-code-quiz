@@ -1,6 +1,6 @@
 # h4-code-quiz
 
-For this week's homework I have created a javascript quiz. The tasks to complete were as follows:
+For this week's homework I have created a javascript quiz of five questions. The tasks to complete were as follows:
 
     WHEN I click the start button
     THEN a timer starts and I am presented with a question
@@ -17,6 +17,6 @@ For this week's homework I have created a javascript quiz. The tasks to complete
     WHEN the game is over
     THEN I can save my initials and my score
 
-```
+![image of quiz start page](images.start-quiz.png)
 
-```
+The link for the project is as follows: https://empipio.github.io/h3-password-generator/
