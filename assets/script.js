@@ -1,5 +1,5 @@
 //questions for the quiz stored in an array
-var questions = [
+const questions = [
   {
     id: 1,
     category: "How is Javascript linked to an HTML file?",
@@ -43,42 +43,42 @@ var questions = [
   },
 ];
 
-var timer = 60;
+let timer = 60;
 
-var currentQuestion = 0;
+let currentQuestion = 0;
 
-var score = 0;
+let score = 0;
 
-var timeEl = document.getElementById("timer-container");
-var scoreEl = document.getElementById("score-container");
+const timeEl = document.getElementById("timer-container");
+const scoreEl = document.getElementById("score-container");
 
 //empty sections created and appended for each part of the quiz
-var startContainerEl = document.createElement("section");
+const startContainerEl = document.createElement("section");
 document.body.appendChild(startContainerEl);
 
-var resultsContainerEL = document.createElement("section");
+const resultsContainerEL = document.createElement("section");
 document.body.appendChild(resultsContainerEL);
 
-var hSCcontainerEl = document.createElement("section");
+const hSCcontainerEl = document.createElement("section");
 document.body.appendChild(hSCcontainerEl);
 
 //elements created for start page
-var WelcomeHeaderEl = document.createElement("h1");
+const WelcomeHeaderEl = document.createElement("h1");
 WelcomeHeaderEl.textContent = "Welcome to the Coding Quiz!";
 startContainerEl.appendChild(WelcomeHeaderEl);
 
-var GameInstructionsEl = document.createElement("p");
+const GameInstructionsEl = document.createElement("p");
 GameInstructionsEl.textContent =
   "Select the correct answer from the available options before the timer runs out. Time will be deducted for incorrect answers!";
 startContainerEl.appendChild(GameInstructionsEl);
 
-var GameStartButtonEl = document.createElement("button");
+const GameStartButtonEl = document.createElement("button");
 GameStartButtonEl.textContent = "Take the Quiz";
 startContainerEl.appendChild(GameStartButtonEl);
 
 //function to control timer, cleared once 0 reached and gameOver() function then called. If incorrect answer when less than 10s remaining gameOver() will be called.
 function startTimer() {
-  var timeInterval = setInterval(function () {
+  const timeInterval = setInterval(function () {
     timer--;
     timeEl.textContent = timer + " seconds remaining";
 
@@ -92,15 +92,15 @@ function startTimer() {
 //question produced, answer checked, nextQuestion() then called
 function produceQuestion() {
   //elements created for questions to be displayed
-  var questionContainerEl = document.createElement("section");
+  const questionContainerEl = document.createElement("section");
   questionContainerEl.setAttribute("id", "questionContainer");
   document.body.appendChild(questionContainerEl);
 
-  var questionHeader = document.createElement("header");
+  const questionHeader = document.createElement("header");
   questionHeader.textContent = "Question " + questions[currentQuestion].id;
   questionContainerEl.appendChild(questionHeader);
 
-  var categoryEl = document.createElement("p");
+  const categoryEl = document.createElement("p");
   categoryEl.textContent = questions[currentQuestion].category;
   categoryEl.setAttribute(
     "data-index",
@@ -108,38 +108,38 @@ function produceQuestion() {
   );
   questionHeader.appendChild(categoryEl);
 
-  var divEl = document.createElement("div");
+  const divEl = document.createElement("div");
   categoryEl.appendChild(divEl);
 
   //wanted to put answer buttons in a for loop but couldn't get it to work and ran out of time
   //data index added in order to be able to check whether user has selected correct answer
-  var answerButton1 = document.createElement("button");
+  const answerButton1 = document.createElement("button");
   answerButton1.textContent = questions[currentQuestion].answers[0];
   answerButton1.setAttribute("data-index", 0);
   categoryEl.appendChild(answerButton1);
 
-  var answerButton2 = document.createElement("button");
+  const answerButton2 = document.createElement("button");
   answerButton2.textContent = questions[currentQuestion].answers[1];
   answerButton2.setAttribute("data-index", 1);
   categoryEl.appendChild(answerButton2);
 
-  var answerButton3 = document.createElement("button");
+  const answerButton3 = document.createElement("button");
   answerButton3.textContent = questions[currentQuestion].answers[2];
   answerButton3.setAttribute("data-index", 2);
   categoryEl.appendChild(answerButton3);
 
-  var answerButton4 = document.createElement("button");
+  const answerButton4 = document.createElement("button");
   answerButton4.textContent = questions[currentQuestion].answers[3];
   answerButton4.setAttribute("data-index", 3);
   categoryEl.appendChild(answerButton4);
 
   //event listener to check whether answer correct once button clicked
   categoryEl.addEventListener("click", function (event) {
-    var elementClicked = event.target;
+    const elementClicked = event.target;
 
     if (elementClicked.matches("button")) {
-      var rightAnswerIndex = categoryEl.getAttribute("data-index");
-      var selectedAnswerIndex = elementClicked.getAttribute("data-index");
+      const rightAnswerIndex = categoryEl.getAttribute("data-index");
+      const selectedAnswerIndex = elementClicked.getAttribute("data-index");
 
       if (rightAnswerIndex === selectedAnswerIndex) {
         score = score + 1;
@@ -160,7 +160,7 @@ function produceQuestion() {
 //once question answered, questionContainerEl is removed. It can then be added back on and repopulated with next question when produceQuestion() called again
 function nextQuestion() {
   if (currentQuestion < questions.length) {
-    var questionContainerEl = document.getElementById("questionContainer");
+    const questionContainerEl = document.getElementById("questionContainer");
     questionContainerEl.remove();
     produceQuestion();
   } else {
@@ -170,37 +170,37 @@ function nextQuestion() {
 
 //high scores stored as an array in local storage. Function here declared to retrieve them
 function getHighScores() {
-  var highScoresString = localStorage.getItem("highscores");
+  const highScoresString = localStorage.getItem("highscores");
 
   if (highScoresString === null) {
     return [];
   }
 
-  var highScores = JSON.parse(highScoresString);
+  const highScores = JSON.parse(highScoresString);
 
   return highScores;
 }
 
 function showHighScores() {
   //elements created/amended/appended for the high score page
-  var hSCcontainerEl = document.createElement("section");
+  const hSCcontainerEl = document.createElement("section");
   document.body.appendChild(hSCcontainerEl);
 
-  var hSHeaderEl = document.createElement("h1");
+  const hSHeaderEl = document.createElement("h1");
   hSHeaderEl.textContent = "High Scores";
   hSCcontainerEl.appendChild(hSHeaderEl);
 
-  var scoreListEl = document.createElement("ul");
+  const scoreListEl = document.createElement("ul");
   scoreListEl.textContent = "Scores";
   scoreListEl.style.fontWeight = "bold";
   scoreListEl.style.listStyleType = "none";
   hSCcontainerEl.appendChild(scoreListEl);
 
-  var clearHSButtonEl = document.createElement("button");
+  const clearHSButtonEl = document.createElement("button");
   clearHSButtonEl.textContent = "Clear Highscores";
   hSCcontainerEl.appendChild(clearHSButtonEl);
 
-  var restartButtonEl = document.createElement("button");
+  const restartButtonEl = document.createElement("button");
   restartButtonEl.textContent = "Play again";
   hSCcontainerEl.appendChild(restartButtonEl);
 
@@ -221,11 +221,11 @@ function showHighScores() {
 
   restartButtonEl.addEventListener("click", restartGame);
 
-  var highScores = getHighScores();
+  const highScores = getHighScores();
 
   //high scores retrieved from local storage and displayed in a list item
-  for (var i = 0; i < highScores.length; i++) {
-    var scoreListItem = document.createElement("li");
+  for (let i = 0; i < highScores.length; i++) {
+    const scoreListItem = document.createElement("li");
     scoreListItem.style.fontWeight = "normal";
 
     scoreListItem.textContent =
@@ -238,38 +238,38 @@ function showHighScores() {
 function gameOver() {
   //elements removed in order to make way for score screen
   document.body.removeChild(timeEl);
-  var questionContainerEl = document.getElementById("questionContainer");
+  const questionContainerEl = document.getElementById("questionContainer");
   document.body.removeChild(questionContainerEl);
   document.body.removeChild(scoreEl);
 
-  var resultsContainerEL = document.createElement("section");
+  const resultsContainerEL = document.createElement("section");
   document.body.appendChild(resultsContainerEL);
 
-  var resultsHeaderEl = document.createElement("h1");
+  const resultsHeaderEl = document.createElement("h1");
   resultsHeaderEl.textContent = "Game Over!";
   resultsContainerEL.appendChild(resultsHeaderEl);
 
-  var UserScoreEl = document.createElement("p");
+  const UserScoreEl = document.createElement("p");
   UserScoreEl.textContent = "Your Score is " + score;
   resultsContainerEL.appendChild(UserScoreEl);
 
   //user adds initials here in order to save score
-  var userInputEl = document.createElement("input");
+  const userInputEl = document.createElement("input");
   userInputEl.placeholder = "Type your initials here";
   resultsContainerEL.appendChild(userInputEl);
 
-  var submitEl = document.createElement("button");
+  const submitEl = document.createElement("button");
   submitEl.textContent = "Save score";
   resultsContainerEL.appendChild(submitEl);
 
   //when clicked, the user's initials and score are pushed to the high score array and stored in local storage
   submitEl.addEventListener("click", function (event) {
-    var newHighScore = {
+    const newHighScore = {
       name: userInputEl.value,
       score: score,
     };
 
-    var highScores = getHighScores();
+    let highScores = getHighScores();
     highScores.push(newHighScore);
 
     localStorage.setItem("highscores", JSON.stringify(highScores));
