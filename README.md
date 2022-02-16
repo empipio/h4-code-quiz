@@ -22,7 +22,7 @@ For this week's homework I have created a javascript quiz of five questions. The
 ![image of page to save score](assets/images/save-score.png)
 ![image of high scores](assets/images/high-scores.png)
 
-Technologies used include html, css, javascript and jQuery.
+Technologies used include html, css and javascript.
 
 The link for the project is as follows: https://empipio.github.io/h4-code-quiz/
 
