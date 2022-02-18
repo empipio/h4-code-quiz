@@ -26,4 +26,6 @@ Technologies used include html, css and javascript.
 
 The link for the project is as follows: https://empipio.github.io/h4-code-quiz/
 
+License: MIT
+
 Contact: emckibben@hotmail.co.uk
